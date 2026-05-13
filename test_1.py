@@ -1,5 +1,6 @@
 import uvicorn # opens a port so computer can listen for web traffic
 from fastapi import FastAPI
+from mangum import Mangum
 from sqlalchemy import Column, Integer, String, create_engine
 # create_engine manages connection to database file
 from sqlalchemy.orm import declarative_base
@@ -69,6 +70,8 @@ async def delete_item(item_id:int):
     db.delete(db_item)
     db.commit()
     return { "message":"Item deleted succesfully"}
+
+handler = Mangum(app)
 
 if __name__=="__main__":
     uvicorn.run(app)
